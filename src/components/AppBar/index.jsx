@@ -18,11 +18,29 @@ import Accout from './Menu/Profiles'
 import SearchIcon from '@mui/icons-material/Search'
 import InputAdornment from '@mui/material/InputAdornment'
 import { useState } from 'react'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import Menu from '@mui/material/Menu'
+// import MenuItem from '@mui/material/MenuItem'
+import React from 'react'
+import AddIcon from '@mui/icons-material/Add'
+
+
+import List from '@mui/material/List'
+import ListItem from '@mui/material/ListItem'
 
 
 function AppBar () {
 
   const [focused, setFocused] = useState(false)
+
+  const [anchorEl, setAnchorEl] = React.useState(null)
+  const open = Boolean(anchorEl)
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget)
+  }
+  const handleClose = () => {
+    setAnchorEl(null)
+  }
 
   return (
     <Box px={3} sx={{
@@ -30,7 +48,8 @@ function AppBar () {
       height: (theme ) => theme.trelloCustom.headerHeight,
       display:'flex',
       alignItems:'center',
-      justifyContent: 'space-between'
+      justifyContent: 'space-between',
+      gap: 4
     }}>
       <Box sx={{
         display: 'flex',
@@ -51,11 +70,74 @@ function AppBar () {
             fontSize: '1.1rem'
           }}>Trello</Typography>
         </Box>
-        <Workspace/>
-        <Recent/>
-        <Starred/>
-        <Templates/>
-        <Button variant="outlined">Create</Button>
+        <Box sx={{ display: { xs:'none', md:'flex' } }}>
+          <Workspace />
+          <Recent/>
+          <Starred/>
+          <Templates/>
+        </Box>
+        <Box sx={{ display: { xs:'flex', md:'none' } }}>
+          <Button
+            id="basic-button-workspace"
+            aria-controls={open ? 'basic-menu-workspace' : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? 'true' : undefined}
+            onClick={handleClick}
+            endIcon={<ExpandMoreIcon/>}
+          >
+            More
+          </Button>
+
+          <Menu id="basic-menu-workspace"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            MenuListProps={{
+              'aria-labelledby': 'basic-button-workspace'
+            }} >
+            <nav aria-label="main mailbox folders">
+              <List>
+                <ListItem disablePadding>
+                  <Workspace/>
+                </ListItem>
+                <ListItem disablePadding>
+                  <Recent/>
+                </ListItem>
+                <ListItem disablePadding>
+                  <Starred/>
+                </ListItem>
+                <ListItem disablePadding>
+                  <Templates/>
+                </ListItem>
+              </List>
+            </nav>
+          </Menu>
+
+          {/* <Menu
+            id="basic-menu-workspace"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            MenuListProps={{
+              'aria-labelledby': 'basic-button-workspace'
+            }}
+          >
+            <MenuItem>
+              <Workspace/>
+            </MenuItem>
+            <MenuItem>
+              <Recent/>
+            </MenuItem>
+            <MenuItem>
+              <Starred/>
+            </MenuItem>
+            <MenuItem>
+              <Templates/>
+            </MenuItem>
+          </Menu> */}
+        </Box>
+        <Button variant="outlined" sx={{ display: { xs:'none', md:'flex' } }}>Create</Button>
+        <AddIcon color='error' fontSize='le' sx={{ display: { xs:'flex', md:'none' }, border: '2px solid', borderRadius: '5px', borderColor: 'primary.main', fontSize: 30 }}/>
       </Box>
       <Box sx={{
         display: 'flex',
@@ -71,6 +153,7 @@ function AppBar () {
           variant="outlined"
           size="small"
           sx={{
+            display: { sm: 'flex', xs: 'none' },
             width: focused ? '100%' : 'auto',
             transition: 'width 0.3s ease-in-out'
           }}
@@ -86,6 +169,10 @@ function AppBar () {
             )
           }}
         />
+        <SearchIcon sx={{
+          display: { sm: 'none', xs: 'flex' },
+          color: 'primary.main'
+        }}/>
         <ModeSelect/>
         <Tooltip title="Thong bao">
           <Badge color="secondary" variant="dot" sx={{ cursor: 'pointer' }}>

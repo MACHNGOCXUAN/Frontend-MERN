@@ -12,7 +12,7 @@ import ContentPaste from '@mui/icons-material/ContentPaste'
 import Cloud from '@mui/icons-material/Cloud'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 
-function Recent() {
+function Workspaces() {
   const [anchorEl, setAnchorEl] = React.useState(null)
   const open = Boolean(anchorEl)
   const handleClick = (event) => {
@@ -32,7 +32,7 @@ function Recent() {
         onClick={handleClick}
         endIcon={<ExpandMoreIcon/>}
       >
-        Recent
+        Workspaces
       </Button>
       <Menu
         id="basic-menu-workspace"
@@ -82,4 +82,4 @@ function Recent() {
   )
 }
 
-export default Recent
+export default Workspaces
