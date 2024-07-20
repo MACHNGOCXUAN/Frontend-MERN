@@ -11,6 +11,7 @@ import ContentCopy from '@mui/icons-material/ContentCopy'
 import ContentPaste from '@mui/icons-material/ContentPaste'
 import Cloud from '@mui/icons-material/Cloud'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 
 function Workspaces() {
   const [anchorEl, setAnchorEl] = React.useState(null)
@@ -31,8 +32,20 @@ function Workspaces() {
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
         endIcon={<ExpandMoreIcon/>}
+        sx={{ display: { xs: 'none', md: 'flex' } }}
       >
         Workspaces
+      </Button>
+      <Button
+        id="basic-button-workspace"
+        aria-controls={open ? 'basic-menu-workspace' : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? 'true' : undefined}
+        onClick={handleClick}
+        sx={{ display: { xs: 'flex', md: 'none' }, width:'150px', justifyContent:'space-between' }}
+      >
+        Workspaces
+        <ChevronRightIcon fontSize='small'/>
       </Button>
       <Menu
         id="basic-menu-workspace"
