@@ -7,7 +7,10 @@ function BoardContent () {
       width:'100%',
       height: (them) => `calc(100vh - ${them.trelloCustom.headerHeight} - ${them.trelloCustom.navHeight})`,
       display:'flex',
-      alignItems:'center'
+      alignItems:'center',
+      '@media (max-width: 1000px)': {
+        height: (them) => `calc(100vh - ${them.trelloCustom.headerHeight} - ${them.trelloCustom.navHeightColunm})`
+      }
     }}>
       Broad cart
     </Box>

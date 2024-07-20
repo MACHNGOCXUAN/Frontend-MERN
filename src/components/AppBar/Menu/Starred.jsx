@@ -11,6 +11,7 @@ import ContentCopy from '@mui/icons-material/ContentCopy'
 import ContentPaste from '@mui/icons-material/ContentPaste'
 import Cloud from '@mui/icons-material/Cloud'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 
 function Starred() {
   const [anchorEl, setAnchorEl] = React.useState(null)
@@ -31,8 +32,20 @@ function Starred() {
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
         endIcon={<ExpandMoreIcon/>}
+        sx={{ display: { xs: 'none', md: 'flex' } }}
       >
         Starred
+      </Button>
+      <Button
+        id="basic-button-starred"
+        aria-controls={open ? 'basic-menu-starred' : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? 'true' : undefined}
+        onClick={handleClick}
+        sx={{ display: { xs: 'flex', md: 'none' }, width:'150px', justifyContent:'space-between' }}
+      >
+        Starred
+        <ChevronRightIcon/>
       </Button>
       <Menu
         id="basic-menu-starred"
