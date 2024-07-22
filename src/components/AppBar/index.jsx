@@ -23,6 +23,7 @@ import Menu from '@mui/material/Menu'
 // import MenuItem from '@mui/material/MenuItem'
 import React from 'react'
 import AddIcon from '@mui/icons-material/Add'
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
 
 
 import List from '@mui/material/List'
@@ -45,19 +46,20 @@ function AppBar () {
   return (
     <Box px={3} sx={{
       width:'100%',
-      height: (theme ) => theme.trelloCustom.headerHeight,
+      height: ( theme ) => theme.trelloCustom.headerHeight,
       display:'flex',
       alignItems:'center',
       justifyContent: 'space-between',
       gap: 4,
-      overflowX: 'auto'
+      overflowX: 'auto',
+      background: ( theme ) => theme.palette.mode === 'dark' ? '#34495e' : '#9b59b6'
     }}>
       <Box sx={{
         display: 'flex',
         flex: 1,
         alignItems: 'center',
         gap: 1.5,
-        color: 'primary.main'
+        color: 'white'
       }}>
         <IconMenu fontSize='medium'/>
         <Box sx={{
@@ -85,6 +87,7 @@ function AppBar () {
             aria-expanded={open ? 'true' : undefined}
             onClick={handleClick}
             endIcon={<ExpandMoreIcon/>}
+            sx={{ color: 'white' }}
           >
             More
           </Button>
@@ -137,8 +140,22 @@ function AppBar () {
             </MenuItem>
           </Menu> */}
         </Box>
-        <Button variant="outlined" sx={{ display: { xs:'none', md:'flex' } }}>Create</Button>
-        <AddIcon color='error' fontSize='le' sx={{ display: { xs:'flex', md:'none' }, border: '2px solid', borderRadius: '5px', borderColor: 'primary.main', fontSize: 30 }}/>
+        <Button sx={{
+          display: { xs:'none', md:'flex' },
+          color: 'white',
+          border: 'none',
+          backgroundColor: '#7f8c8d',
+          gap: 1,
+          '&:hover': { background: '#95a5a6' }
+        }}><AddCircleOutlineIcon fontSize='small'/> Create</Button>
+        <AddIcon color='black' fontSize='small' sx={{
+          display: { xs:'flex', md:'none' },
+          width: '30px',
+          height: '30px',
+          backgroundColor: '#7f8c8d',
+          borderRadius: '5px',
+          '&:hover': { background: '#95a5a6' }
+        }}/>
       </Box>
       <Box sx={{
         display: 'flex',
@@ -156,7 +173,19 @@ function AppBar () {
           sx={{
             display: { sm: 'flex', xs: 'none' },
             width: focused ? '100%' : 'auto',
-            transition: 'width 0.3s ease-in-out'
+            transition: 'width 0.3s ease-in-out',
+            '& input': { color: 'white' },
+            '& .MuiOutlinedInput-root':{
+              '& fieldset':{
+                borderColor: 'white'
+              },
+              '&.Mui-focused fieldset':{
+                borderColor: 'white'
+              },
+              '&:hover fieldset':{
+                borderColor: 'white'
+              }
+            }
           }}
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
@@ -164,7 +193,7 @@ function AppBar () {
             startAdornment: (
               <InputAdornment position="start">
                 <SearchIcon sx={{
-                  color: 'primary.main'
+                  color: 'white'
                 }}/>
               </InputAdornment>
             )
@@ -172,16 +201,16 @@ function AppBar () {
         />
         <SearchIcon sx={{
           display: { sm: 'none', xs: 'flex' },
-          color: 'primary.main'
+          color: 'white'
         }}/>
         <ModeSelect/>
         <Tooltip title="Thong bao">
-          <Badge color="secondary" variant="dot" sx={{ cursor: 'pointer' }}>
-            <NotificationsNoneIcon sx={{ color: 'primary.main' }}/>
+          <Badge color="error" variant="dot" sx={{ cursor: 'pointer' }}>
+            <NotificationsNoneIcon sx={{ color: 'white' }}/>
           </Badge>
         </Tooltip>
         <Tooltip title="Help" sx={{ cursor: 'pointer' }}>
-          <HelpOutlineIcon sx={{ color: 'primary.main' }}/>
+          <HelpOutlineIcon sx={{ color: 'white' }}/>
         </Tooltip>
         <Accout/>
       </Box>

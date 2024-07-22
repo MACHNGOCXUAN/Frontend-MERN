@@ -32,7 +32,7 @@ function Templates() {
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
         endIcon={<ExpandMoreIcon/>}
-        sx={{ display: { xs: 'none', md: 'flex' } }}
+        sx={{ display: { xs: 'none', md: 'flex' }, color: 'white' }}
       >
         Templates
       </Button>
@@ -42,7 +42,7 @@ function Templates() {
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
-        sx={{ display: { xs: 'flex', md: 'none' }, width:'150px', justifyContent:'space-between' }}
+        sx={{ display: { xs: 'flex', md: 'none' }, width:'150px', justifyContent:'space-between', color: 'white' }}
       >
         Templates
         <ChevronRightIcon fontSize='small'/>
