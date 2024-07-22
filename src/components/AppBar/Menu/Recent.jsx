@@ -32,7 +32,7 @@ function Recent() {
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
         endIcon={<ExpandMoreIcon/>}
-        sx={{ display: { xs: 'none', md: 'flex' } }}
+        sx={{ display: { xs: 'none', md: 'flex' }, color: 'white' }}
       >
         Recent
       </Button>
@@ -42,7 +42,7 @@ function Recent() {
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
-        sx={{ display: { xs: 'flex', md: 'none' }, width:'150px', justifyContent:'space-between' }}
+        sx={{ display: { xs: 'flex', md: 'none' }, width:'150px', justifyContent:'space-between', color: 'white' }}
       >
         Recent
         <ChevronRightIcon/>

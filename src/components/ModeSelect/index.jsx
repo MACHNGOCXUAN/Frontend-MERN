@@ -82,7 +82,10 @@ function ModeSelect() {
         width: '30px',
         height: '30px',
         borderRadius: '20px',
-        color: 'primary.main'
+        color: 'white',
+        '& .MuiSvgIcon-root':{
+          color: 'while'
+        }
       }}
     >
       {mode === 'light' ? <Tooltip title='Turn off the light'><DarkModeOutlined/></Tooltip> : <Tooltip title='Turn on the light'><LightModeOutlined /></Tooltip>}

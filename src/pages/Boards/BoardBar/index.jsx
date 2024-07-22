@@ -20,6 +20,11 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 
 function BoardBar () {
   const [value, setValue] = useState('MACHNGOCXUAN')
+  const [seleteStyle, setSeleteStyle] = useState('Board')
+
+  const handleClick = (style) => {
+    setSeleteStyle(style)
+  }
 
   return (
     <Box px={1} sx={{
@@ -68,34 +73,57 @@ function BoardBar () {
               }
             },
             '&:hover':{
-              backgroundColor: '#764865',
+              backgroundColor: 'primary.main',
               borderRadius: 2
             },
             '& .MuiOutlinedInput-root.Mui-focused .MuiInputBase-input': {
-              backgroundColor: '#764865',
+              backgroundColor: 'primary.main',
               borderRadius: 2
             }
           }}
         />
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
           <Tooltip title='Star'>
-            <Box sx={{ borderRadius: 1, color: 'white', padding: 1, display: 'flex', alignItems: 'center', '&:hover':{ backgroundColor: '#764865' } }}>
+            <Box sx={{ borderRadius: 1, color: 'white', padding: 1, display: 'flex', alignItems: 'center', '&:hover':{ backgroundColor: 'primary.main' } }}>
               <StarOutlineIcon fontSize='small'/>
             </Box>
           </Tooltip>
           <Tooltip title='Change visibility'>
-            <Box sx={{ borderRadius: 1, color: 'white', padding: 1, display: 'flex', alignItems: 'center', '&:hover':{ backgroundColor: '#764865' } }}>
+            <Box sx={{ borderRadius: 1, color: 'white', padding: 1, display: 'flex', alignItems: 'center', '&:hover':{ backgroundColor: 'primary.main' } }}>
               <PeopleAltIcon fontSize='small'/>
             </Box>
           </Tooltip>
-          <Tooltip title='Board'>
-            <Button variant="outlined" sx={{ backgroundColor: 'white', '&:hover':{ color:'white' }, display: { xs: 'none', md:'flex' } }} startIcon={<LeaderboardIcon fontSize='small'/>}>Board</Button>
-          </Tooltip>
-          <Tooltip title='Table'>
-            <Button variant="text" sx={{ color: 'white', '&:hover':{ color:'white', backgroundColor: '#764865' } }} startIcon={<TableChartIcon fontSize='small'/>}>Table</Button>
-          </Tooltip>
+          <Box sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: 1
+          }}>
+            <Tooltip title='Board'>
+              <Button
+                sx={{
+                  px: '15px',
+                  backgroundColor: seleteStyle==='Board'?'white':'transparent',
+                  color: seleteStyle==='Board'?'primary.main':'white',
+                  '&:hover': seleteStyle === 'Board' ? { bgcolor: 'white' } : { bgcolor: 'primary.main' }
+                }}
+                onClick={() => handleClick('Board')}
+                startIcon={<LeaderboardIcon fontSize='small'/>}>Board</Button>
+            </Tooltip>
+            <Tooltip title='Table'>
+              <Button
+                sx={{
+                  px: '15px',
+                  backgroundColor: seleteStyle==='Table'?'white':'transparent',
+                  color: seleteStyle==='Table'?'primary.main':'white',
+                  '&:hover': seleteStyle === 'Table' ? { bgcolor: 'white' } : { bgcolor: 'primary.main' }
+                }}
+                onClick={() => handleClick('Table')}
+                startIcon={<TableChartIcon fontSize='small'/>}>Table</Button>
+            </Tooltip>
+          </Box>
           <Tooltip title='Customize views'>
-            <Box sx={{ borderRadius: 1, color: 'white', padding: 1, display: 'flex', alignItems: 'center', '&:hover':{ backgroundColor: '#764865' } }}>
+            <Box sx={{ borderRadius: 1, color: 'white', padding: 1, display: 'flex', alignItems: 'center', '&:hover':{ backgroundColor: 'primary.main' } }}>
               <ExpandMoreIcon fontSize='small'/>
             </Box>
           </Tooltip>
@@ -113,12 +141,12 @@ function BoardBar () {
         }
       }}>
         <Tooltip title='Power Usp'>
-          <Box sx={{ display: 'flex', alignItems: 'center', padding: 1, '&:hover':{ backgroundColor: '#764865', borderRadius: 2 } }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', padding: 1, '&:hover':{ backgroundColor: 'primary.main', borderRadius: 2 } }}>
             <SvgIcon component={IconPower} inheritViewBox fontSize="small"/>
           </Box>
         </Tooltip>
         <Tooltip title='Automation'>
-          <Box sx={{ display: 'flex', alignItems: 'center', padding: 1, '&:hover':{ backgroundColor: '#764865', borderRadius: 2 } }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', padding: 1, '&:hover':{ backgroundColor: 'primary.main', borderRadius: 2 } }}>
             <SvgIcon component={IconAutomation} inheritViewBox fontSize="small"/>
           </Box>
         </Tooltip>
@@ -128,7 +156,7 @@ function BoardBar () {
             alignItems: 'center',
             gap: 1,
             color: 'white',
-            '&:hover':{ color:'white', backgroundColor: '#764865' }
+            '&:hover':{ color:'white', backgroundColor: 'primary.main' }
           }}> <FilterListIcon fontSize="small"/> Filters </Button>
         </Tooltip>
         <Box sx={{ mr:1, border: '1px solid', height: 20, color: 'primary.main' }}></Box>
@@ -163,10 +191,10 @@ function BoardBar () {
             gap: 1,
             color: 'black',
             backgroundColor: 'white',
-            '&:hover':{ color:'white', backgroundColor: '#764865' }
+            '&:hover':{ color:'white', backgroundColor: 'primary.main' }
           }}> <PersonAddIcon fontSize='small' /> Share </Button>
         </Tooltip>
-        <Box sx={{ display: 'flex', alignItems: 'center', padding: 1, '&:hover':{ backgroundColor: '#764865', borderRadius: 2 } }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', padding: 1, '&:hover':{ backgroundColor: 'primary.main', borderRadius: 2 } }}>
           <MoreHorizIcon fontSize="small"/>
         </Box>
       </Box>
