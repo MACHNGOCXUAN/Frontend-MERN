@@ -184,6 +184,9 @@ function AppBar () {
               },
               '&:hover fieldset':{
                 borderColor: 'white'
+              },
+              '& input::placeholder': {
+                color: 'white'
               }
             }
           }}

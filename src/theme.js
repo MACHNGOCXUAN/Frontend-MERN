@@ -2,11 +2,20 @@
 import { experimental_extendTheme as extendTheme } from '@mui/material/styles'
 
 // Create a theme instance.
+
+const APP_BAR_HEIGHT = '58px'
+const NAV_BAR_HEIGHT = '60px'
+const NAV_BAR_HEIGHT_RESPONSIVE = '95px'
+const BOARD_CONTENT_HEIGHT = `calc(100vh - ${APP_BAR_HEIGHT} - ${NAV_BAR_HEIGHT})`
+const BOARD_CONTENT_HEIGHT_RESPONSIVE = `calc(100vh - ${APP_BAR_HEIGHT} - ${NAV_BAR_HEIGHT_RESPONSIVE})`
+
 const theme = extendTheme({
   trelloCustom: {
-    headerHeight: '58px',
-    navHeight: '60px',
-    navHeightColunm: '95px'
+    headerHeight: APP_BAR_HEIGHT,
+    navHeight: NAV_BAR_HEIGHT,
+    navHeightColunm: '95px',
+    boardContentHeight: BOARD_CONTENT_HEIGHT,
+    boardContentHeightrResponsive: BOARD_CONTENT_HEIGHT_RESPONSIVE
   },
   // colorSchemes: {
   //   light: {
