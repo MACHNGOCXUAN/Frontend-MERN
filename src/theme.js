@@ -8,6 +8,8 @@ const NAV_BAR_HEIGHT = '60px'
 const NAV_BAR_HEIGHT_RESPONSIVE = '95px'
 const BOARD_CONTENT_HEIGHT = `calc(100vh - ${APP_BAR_HEIGHT} - ${NAV_BAR_HEIGHT})`
 const BOARD_CONTENT_HEIGHT_RESPONSIVE = `calc(100vh - ${APP_BAR_HEIGHT} - ${NAV_BAR_HEIGHT_RESPONSIVE})`
+const COLUMN_HEADER_HEIGHT= '50px'
+const COLUMN_FOOTER_HEIGHT= '56px'
 
 const theme = extendTheme({
   trelloCustom: {
@@ -15,7 +17,9 @@ const theme = extendTheme({
     navHeight: NAV_BAR_HEIGHT,
     navHeightColunm: '95px',
     boardContentHeight: BOARD_CONTENT_HEIGHT,
-    boardContentHeightrResponsive: BOARD_CONTENT_HEIGHT_RESPONSIVE
+    boardContentHeightrResponsive: BOARD_CONTENT_HEIGHT_RESPONSIVE,
+    columnHeaderHeight: COLUMN_HEADER_HEIGHT,
+    columnFooterHeight: COLUMN_FOOTER_HEIGHT
   },
   // colorSchemes: {
   //   light: {
