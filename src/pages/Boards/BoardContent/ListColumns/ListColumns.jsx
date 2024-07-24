@@ -3,7 +3,7 @@ import Column from './Column/Column'
 import Button from '@mui/material/Button'
 import AddBoxIcon from '@mui/icons-material/AddBox'
 
-function ListColumns () {
+function ListColumns ({ columns }) {
 
   return (
     <Box sx={{
@@ -15,12 +15,7 @@ function ListColumns () {
       overflowY: 'hidden'
     }}>
       {/* Box column 01*/}
-      <Column/>
-      <Column/>
-      <Column/>
-      <Column/>
-      <Column/>
-      <Column/>
+      {columns.map(column => <Column key={column._id} column={column}/>)}
 
 
       {/* Add new card */}
@@ -38,7 +33,8 @@ function ListColumns () {
           justifyContent: 'flex-start',
           borderRadius: '10px',
           px: 3,
-          py: 1
+          py: 1,
+          color: 'white'
         }}>
           Add another list
         </Button>

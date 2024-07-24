@@ -3,7 +3,6 @@ import TextField from '@mui/material/TextField'
 import { useState } from 'react'
 import StarOutlineIcon from '@mui/icons-material/StarOutline'
 import Tooltip from '@mui/material/Tooltip'
-import PeopleAltIcon from '@mui/icons-material/PeopleAlt'
 import LeaderboardIcon from '@mui/icons-material/Leaderboard'
 import Button from '@mui/material/Button'
 import TableChartIcon from '@mui/icons-material/TableChart'
@@ -16,9 +15,11 @@ import Avatar from '@mui/material/Avatar'
 import AvatarGroup from '@mui/material/AvatarGroup'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
+import PublicIcon from '@mui/icons-material/Public'
+import HttpsIcon from '@mui/icons-material/Https'
 
 
-function BoardBar () {
+function BoardBar ({ board }) {
   const [value, setValue] = useState('MACHNGOCXUAN')
   const [seleteStyle, setSeleteStyle] = useState('Board')
 
@@ -90,7 +91,8 @@ function BoardBar () {
           </Tooltip>
           <Tooltip title='Change visibility'>
             <Box sx={{ borderRadius: 1, color: 'white', padding: 1, display: 'flex', alignItems: 'center', '&:hover':{ backgroundColor: 'primary.main' } }}>
-              <PeopleAltIcon fontSize='small'/>
+              {board?.type=='public' && <PublicIcon fontSize='small'/> }
+              {board?.type=='private' && <HttpsIcon fontSize='small'/> }
             </Box>
           </Tooltip>
           <Box sx={{

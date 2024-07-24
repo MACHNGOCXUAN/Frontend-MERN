@@ -17,8 +17,9 @@ import AddCardIcon from '@mui/icons-material/AddCard'
 import Button from '@mui/material/Button'
 import DragHandleIcon from '@mui/icons-material/DragHandle'
 import ListCards from './ListCards/ListCards'
+import { mapOrder } from '~/utils/sort'
 
-function Column () {
+function Column ({ column }) {
 
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
@@ -28,6 +29,8 @@ function Column () {
   const handleClose = () => {
     setAnchorEl(null)
   }
+
+  const orderedCarts = mapOrder(column?.cards, column?.cardOrderIds, '_id')
 
   return (
     <Box sx={{
@@ -53,7 +56,7 @@ function Column () {
       }}>
         <Typography sx={{
           fontWeight: 'bold'
-        }}>To do</Typography>
+        }}>{column?.title}</Typography>
         <Box>
           <Tooltip title='More options'>
             <MoreHorizIcon
@@ -102,7 +105,7 @@ function Column () {
         </Box>
       </Box>
       {/* Box list card */}
-      <ListCards/>
+      <ListCards cards={orderedCarts}/>
       {/* Box column footer */}
       <Box sx={{
         height: (theme) => theme.trelloCustom.columnHeaderHeight,
