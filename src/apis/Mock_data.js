@@ -20,7 +20,7 @@ export const mockData = {
             columnId: 'column-id-01',
             title: 'Title of card 01',
             description: 'Markdown Syntax (sẽ ở khóa nâng cao nhé)',
-            cover: 'https://trungquandev.com/wp-content/uploads/2022/07/fair-mern-stack-advanced-banner-trungquandev.jpg',
+            cover: 'https://scontent.fsgn2-9.fna.fbcdn.net/v/t39.30808-6/426701460_1560707824694436_8650737408764239067_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=a5f93a&_nc_ohc=lMuHYJanqpoQ7kNvgG8FmPY&_nc_ht=scontent.fsgn2-9.fna&oh=00_AYAONxFizbFbthtzAiZ2TUn35zIvoQPW-ukqGoSYlnobGA&oe=66A708F5',
             memberIds: ['test-user-id-01'],
             comments: ['test comment 01', 'test comment 02'],
             attachments: ['test attachment 01', 'test attachment 02', 'test attachment 03']
