@@ -4,7 +4,14 @@ import { mapOrder } from '~/utils/sort'
 import { useState, useEffect } from 'react'
 
 import { arrayMove } from '@dnd-kit/sortable'
-import { DndContext, useSensor, useSensors, MouseSensor, TouchSensor } from '@dnd-kit/core'
+import { DndContext, useSensor, useSensors, MouseSensor, TouchSensor, DragOverlay, defaultDropAnimationSideEffects } from '@dnd-kit/core'
+import Column from './ListColumns/Column/Column'
+import Card from './ListColumns/Column/ListCards/Card/Card'
+
+const ACTIVE_DRAG_ITEM_TYPE = {
+  column: 'ACTIVE_DRAG_ITEM_TYPE_COLUMN',
+  card: 'ACTIVE_DRAG_ITEM_TYPE_CARD'
+}
 
 function BoardContent ({ board }) {
   // Yeu cau chuot di chuyen 10px thi kich hoat event , fix truong hop click goi event
@@ -19,6 +26,20 @@ function BoardContent ({ board }) {
     setOrderedColumns(mapOrder( board?.columns, board?.columnOrderIds, '_id' ))
   }, [board])
 
+  const [activeDragItemId, setActiveDragItemId]= useState(null)
+  const [activeDragItemType, setActiveDragItemType]= useState(null)
+  const [activeDragItemData, setActiveDragItemData]= useState(null)
+
+  // bat dau keo
+  function handleDragStart(event) {
+    // console.log(event)
+    setActiveDragItemId(event?.active?.id)
+    // kiem tra xem keo tha o column hay card
+    setActiveDragItemType(event?.active?.data?.current?.columnId ? ACTIVE_DRAG_ITEM_TYPE.card : ACTIVE_DRAG_ITEM_TYPE.column)
+    setActiveDragItemData(event?.active?.data?.current)
+  }
+
+  // sau khi tha
   const handleDragEnd = (event) => {
     // console.log(event)
     const { active, over } = event
@@ -45,8 +66,19 @@ function BoardContent ({ board }) {
     // }
   }
 
+  // khi tha thi hieu ung em hoi de nhin hon (fix dat dat)
+  const dropAnimation = {
+    sideEffects: defaultDropAnimationSideEffects({
+      styles: {
+        active: {
+          opacity: '0.5'
+        }
+      }
+    })
+  }
+
   return (
-    <DndContext onDragEnd={handleDragEnd} sensors={sensor}>
+    <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd} sensors={sensor}>
       <Box sx={{
         width:'100%',
         height: (theme) => theme.trelloCustom.boardContentHeight,
@@ -57,6 +89,11 @@ function BoardContent ({ board }) {
         p: '10px 0'
       }}>
         <ListColumns columns={orderedColumns}/>
+        <DragOverlay dropAnimation={dropAnimation}>
+          {(!activeDragItemId || !activeDragItemType) && null}
+          {(activeDragItemId && activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.column) && <Column column={activeDragItemData}/>}
+          {(activeDragItemId && activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.card) && <Card card={activeDragItemData}/>}
+        </DragOverlay>
       </Box>
     </DndContext>
   )

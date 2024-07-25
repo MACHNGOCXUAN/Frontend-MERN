@@ -8,8 +8,16 @@ import CommentIcon from '@mui/icons-material/Comment'
 import Button from '@mui/material/Button'
 import AttachmentIcon from '@mui/icons-material/Attachment'
 
-function Card ({ card }) {
+import { useSortable } from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
 
+function Card ({ card }) {
+  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: card._id, data: { ...card } })
+  const dndKitCardStyle = {
+    touchAction: 'none',
+    transform: CSS.Translate.toString(transform),
+    transition
+  }
   const showCardAction= () => {
     return (
       !!card?.memberIds.length || !!card?.comments.length || !!card?.attachments.length
@@ -17,11 +25,12 @@ function Card ({ card }) {
   }
 
   return (
-    <MuiCard sx={{
-      cursor: 'pointer',
-      boxShadow: '0 1px 1px rgba(0, 0, 0, 0.2)',
-      overflow: 'unset'
-    }}>
+    <MuiCard ref={setNodeRef} style={ dndKitCardStyle } {...attributes} {...listeners}
+      sx={{
+        cursor: 'pointer',
+        boxShadow: '0 1px 1px rgba(0, 0, 0, 0.2)',
+        overflow: 'unset'
+      }}>
       <CardActionArea>
         {card?.cover &&
           <CardMedia
