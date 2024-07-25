@@ -37,7 +37,7 @@ function BoardBar ({ board }) {
       justifyContent: 'space-between',
       overflowX: 'auto',
       gap: 1,
-      '@media (max-width: 800px)': {
+      '@media (max-width: 900px)': {
         height: (theme) => theme.trelloCustom.navHeightColunm,
         flexWrap: 'wrap',
         flexDirection: 'column'
@@ -47,7 +47,7 @@ function BoardBar ({ board }) {
         display:'flex',
         alignItems:'center',
         gap: 0.1,
-        '@media (max-width: 800px)': {
+        '@media (max-width: 900px)': {
           marginBlockStart: '5px',
           width: '100%',
           justifyContent: 'flex-start'
@@ -136,7 +136,7 @@ function BoardBar ({ board }) {
         alignItems: 'center',
         gap: 0.5,
         color: 'white',
-        '@media (max-width: 800px)': {
+        '@media (max-width: 900px)': {
           marginBlockEnd: '5px',
           width: '100%',
           justifyContent: 'flex-end'

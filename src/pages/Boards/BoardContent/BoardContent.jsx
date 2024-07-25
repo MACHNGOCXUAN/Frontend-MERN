@@ -30,6 +30,11 @@ function BoardContent ({ board }) {
   const [activeDragItemType, setActiveDragItemType]= useState(null)
   const [activeDragItemData, setActiveDragItemData]= useState(null)
 
+  // Ham tim column bang cardid
+  const findColumnByCardId = ( cardId ) => {
+    return orderedColumns.find( column => column?.cards?.map( card => card?._id )?.includes(cardId) )
+  }
+
   // bat dau keo
   function handleDragStart(event) {
     // console.log(event)
@@ -37,6 +42,51 @@ function BoardContent ({ board }) {
     // kiem tra xem keo tha o column hay card
     setActiveDragItemType(event?.active?.data?.current?.columnId ? ACTIVE_DRAG_ITEM_TYPE.card : ACTIVE_DRAG_ITEM_TYPE.column)
     setActiveDragItemData(event?.active?.data?.current)
+  }
+
+  const handleDragOver = (event) => {
+    // console.log(event)
+    const { active, over } = event
+
+    if (!active || !over) return
+    const { id: activeCardId, data: { current: activeCardData } } = active
+    const { id: overCardId } = over
+
+    const activeColumn = findColumnByCardId(activeCardId)
+    const overColumn = findColumnByCardId(overCardId)
+
+    if (!activeColumn || !overColumn) return
+
+    if (activeColumn._id !== overColumn._id) {
+      setOrderedColumns(column => {
+        // tim vi tri sap keo tha
+        const overCardIndex = overColumn?.cards?.findIndex(card => card?._id === overCardId)
+
+        let newCardIndex
+
+        const isBelowOverItem = over && active.rect.current.translated &&
+                                active.rect.current.translated.top > over.rect.top + over.rect.height
+        const modifier = isBelowOverItem ? 1 : 0
+        newCardIndex = overCardIndex >= 0 ? overCardIndex + modifier : column?.cards?.length + 1
+
+        const nextcolumns = [...column]
+        const nextActiveColumn = nextcolumns.find(column => column?._id === activeColumn?._id)
+        const nextOverColumn = nextcolumns.find(column => column?._id === overColumn?._id)
+
+        if (nextActiveColumn) {
+          nextActiveColumn.cards = nextActiveColumn.cards.filter(card => card?._id !== activeCardId)
+          nextActiveColumn.cardOrderIds = nextActiveColumn.cards.map(card => card._id)
+        }
+
+        if (nextOverColumn) {
+          nextOverColumn.cards = nextOverColumn.cards.filter(card => card?._id !== activeCardId)
+          nextOverColumn.cards = nextOverColumn.cards.toSpliced(newCardIndex, 0, activeCardData)
+          nextOverColumn.cardOrderIds = nextOverColumn.cards.map(card => card?._id)
+        }
+
+        return nextcolumns
+      })
+    }
   }
 
   // sau khi tha
@@ -78,7 +128,7 @@ function BoardContent ({ board }) {
   }
 
   return (
-    <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd} sensors={sensor}>
+    <DndContext onDragStart={handleDragStart} onDragOver={handleDragOver} onDragEnd={handleDragEnd} sensors={sensor}>
       <Box sx={{
         width:'100%',
         height: (theme) => theme.trelloCustom.boardContentHeight,
