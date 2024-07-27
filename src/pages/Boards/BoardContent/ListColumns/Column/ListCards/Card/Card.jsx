@@ -21,7 +21,7 @@ function Card ({ card }) {
   }
   const showCardAction= () => {
     return (
-      !!card?.memberIds.length || !!card?.comments.length || !!card?.attachments.length
+      !!card?.memberIds?.length || !!card?.comments?.length || !!card?.attachments?.length
     )
   }
 
@@ -30,7 +30,10 @@ function Card ({ card }) {
       sx={{
         cursor: 'pointer',
         boxShadow: '0 1px 1px rgba(0, 0, 0, 0.2)',
-        overflow: 'unset'
+        // overflow: 'unset',
+        // display: card?.FE_CardNoColumn ? 'none' : 'block'
+        overflow: card?.FE_CardNoColumn ? 'hidden' : 'unset',
+        height: card?.FE_CardNoColumn ? '0px' : 'unset'
       }}>
       <CardActionArea>
         {card?.cover &&

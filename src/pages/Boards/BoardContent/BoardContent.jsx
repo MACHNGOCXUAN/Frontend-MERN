@@ -2,6 +2,7 @@ import Box from '@mui/material/Box'
 import ListColumns from './ListColumns/ListColumns'
 import { mapOrder } from '~/utils/sort'
 import { useState, useEffect } from 'react'
+import { FE_CardNoColumn } from '~/utils/formats'
 
 import { arrayMove } from '@dnd-kit/sortable'
 import { DndContext, useSensor, useSensors, MouseSensor, TouchSensor, DragOverlay, defaultDropAnimationSideEffects, closestCorners } from '@dnd-kit/core'
@@ -56,6 +57,10 @@ function BoardContent ({ board }) {
 
       if (nextActiveColumn) {
         nextActiveColumn.cards = nextActiveColumn.cards.filter(card => card?._id !== activeCardId)
+        // them card ao vao column
+        if (nextActiveColumn.cards.length ===0 ) {
+          nextActiveColumn.cards = [FE_CardNoColumn(nextActiveColumn)]
+        }
         nextActiveColumn.cardOrderIds = nextActiveColumn.cards.map(card => card._id)
       }
 
@@ -63,6 +68,8 @@ function BoardContent ({ board }) {
         nextOverColumn.cards = nextOverColumn.cards.filter(card => card?._id !== activeCardId)
         nextOverColumn.cards = nextOverColumn.cards.toSpliced(newCardIndex, 0, activeCardData)
         nextOverColumn.cardOrderIds = nextOverColumn.cards.map(card => card?._id)
+        // xoa card ao trong column
+        nextOverColumn.cards = nextOverColumn.cards?.filter(card => !card?.FE_CardNoColumn)
       }
 
       return nextcolumns
@@ -158,6 +165,10 @@ function BoardContent ({ board }) {
       // }
 
     }
+    setActiveDragItemId(null)
+    setActiveDragItemType(null)
+    setActiveDragItemData(null)
+    setOldActiveDrap(null)
   }
 
   // khi tha thi hieu ung em hoi de nhin hon (fix dat dat)
