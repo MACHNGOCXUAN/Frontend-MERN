@@ -161,7 +161,7 @@ function Column ({ column }) {
             borderRadius: '10px'
           }}>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, py: 2 }}>
-              <TextField sx={{ width: '100%' }} size='small' value={titleCard} onChange={(e) => setTitleCard(e.target.value)} autoFocus placeholder='Enter list title'/>
+              <TextField data-no-dnd="true" sx={{ width: '100%' }} size='small' value={titleCard} onChange={(e) => setTitleCard(e.target.value)} autoFocus placeholder='Enter list title'/>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 4 }}>
                 <Button onClick={addCard} sx={{ bgcolor: '#2980b9', color: 'white', px: 2 }}>Add card</Button>
                 <CloseIcon onClick={toggleNewCard} fontSize='small'/>

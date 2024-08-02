@@ -5,7 +5,15 @@ import { useState, useEffect } from 'react'
 import { FE_CardNoColumn } from '~/utils/formats'
 
 import { arrayMove } from '@dnd-kit/sortable'
-import { DndContext, useSensor, useSensors, MouseSensor, TouchSensor, DragOverlay, defaultDropAnimationSideEffects, closestCorners } from '@dnd-kit/core'
+import { DndContext,
+  useSensor,
+  useSensors,
+  // MouseSensor,
+  // TouchSensor,
+  DragOverlay,
+  defaultDropAnimationSideEffects,
+  closestCorners } from '@dnd-kit/core'
+import { MouseSensor, TouchSensor } from '~/customLibs/dndKit'
 import Column from './ListColumns/Column/Column'
 import Card from './ListColumns/Column/ListCards/Card/Card'
 
