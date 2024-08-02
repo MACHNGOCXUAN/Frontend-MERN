@@ -18,11 +18,28 @@ import Button from '@mui/material/Button'
 import DragHandleIcon from '@mui/icons-material/DragHandle'
 import ListCards from './ListCards/ListCards'
 import { mapOrder } from '~/utils/sort'
+import TextField from '@mui/material/TextField'
+import CloseIcon from '@mui/icons-material/Close'
 
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 
 function Column ({ column }) {
+
+  const [titleCard, setTitleCard] = useState('')
+  const [oppenNewCard, setOppenNewCard] = useState(false)
+  const toggleNewCard = () => setOppenNewCard(!oppenNewCard)
+  const addCard = () => {
+
+    if (!titleCard) {
+      // console.error('loi khong co title card')
+      return
+    }
+    // console.log(titleCard)
+
+    setTitleCard('')
+    toggleNewCard()
+  }
 
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: column._id, data: { ...column } })
   const dndKitColumnStyle = {
@@ -121,19 +138,37 @@ function Column ({ column }) {
         {/* Box list card */}
         <ListCards cards={orderedCarts}/>
         {/* Box column footer */}
-        <Box sx={{
-          height: (theme) => theme.trelloCustom.columnHeaderHeight,
-          p: 2,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          gap: 3
-        }}>
-          <Button sx={{ display: 'flex', justifyContent: 'flex-start' }} fullWidth startIcon={<AddCardIcon/>}> Add new card</Button>
-          <Tooltip title='Drag to move'>
-            <DragHandleIcon/>
-          </Tooltip>
-        </Box>
+
+        {!oppenNewCard
+          ? <Box sx={{
+            height: (theme) => theme.trelloCustom.columnFooterHeight,
+            p: 2,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: 3
+          }}>
+            <Button onClick={toggleNewCard} sx={{ display: 'flex', justifyContent: 'flex-start' }} fullWidth startIcon={<AddCardIcon/>}> Add new card</Button>
+            <Tooltip title='Drag to move'>
+              <DragHandleIcon/>
+            </Tooltip>
+          </Box>
+          : <Box sx={{
+            bgcolor: ( theme ) => theme.palette.mode === 'dark' ? '#333643' : '#ebecf0',
+            height: 'fit-content',
+            m: '0 5px',
+            p: '0 5px',
+            borderRadius: '10px'
+          }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, py: 2 }}>
+              <TextField sx={{ width: '100%' }} size='small' value={titleCard} onChange={(e) => setTitleCard(e.target.value)} autoFocus placeholder='Enter list title'/>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                <Button onClick={addCard} sx={{ bgcolor: '#2980b9', color: 'white', px: 2 }}>Add card</Button>
+                <CloseIcon onClick={toggleNewCard} fontSize='small'/>
+              </Box>
+            </Box>
+          </Box>
+        }
       </Box>
     </div>
   )
