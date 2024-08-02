@@ -23,6 +23,7 @@ import CloseIcon from '@mui/icons-material/Close'
 
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
+import { toast } from 'react-toastify'
 
 function Column ({ column }) {
 
@@ -32,7 +33,7 @@ function Column ({ column }) {
   const addCard = () => {
 
     if (!titleCard) {
-      // console.error('loi khong co title card')
+      toast.error('loi khong co title card', { position: 'bottom-left' })
       return
     }
     // console.log(titleCard)
