@@ -19,3 +19,9 @@ export const createNewCard = async ( dataNewCard ) => {
 
   return response.data
 }
+
+export const updateOrderedColumnIds = async (boardId, updateData) => {
+  const response = await axios.put(`${API_ROOT}/v1/boards/${boardId}`, updateData)
+
+  return response.data
+}

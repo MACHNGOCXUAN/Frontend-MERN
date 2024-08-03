@@ -22,7 +22,7 @@ const ACTIVE_DRAG_ITEM_TYPE = {
   card: 'ACTIVE_DRAG_ITEM_TYPE_CARD'
 }
 
-function BoardContent ({ board, createColumn, createCard }) {
+function BoardContent ({ board, createColumn, createCard, moveColumns }) {
   // Yeu cau chuot di chuyen 10px thi kich hoat event , fix truong hop click goi event
   const mouseSensor = useSensor(MouseSensor, { activationConstraint : { distance: 10 } })
   // Nhan du chuot trong 250ms va di chuyen 5px de kich hoat even
@@ -154,23 +154,24 @@ function BoardContent ({ board, createColumn, createCard }) {
 
     // Keo tha column
     if (activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.column) {
-      if (active.id !== over.id) {
-        setOrderedColumns((orderedColumns) => {
-          // Vi tri cu cua column
-          const oldIndex = orderedColumns.findIndex(c => c._id === active.id)
-          // Vi tri cu cua column
-          const newIndex = orderedColumns.findIndex(c => c._id === over.id)
-          // Cap nhan vi tri cua column sau khi keo
-          return arrayMove(orderedColumns, oldIndex, newIndex)
-        })
-      }
-      // cach 2
       // if (active.id !== over.id) {
-      //   const oldIndex = orderedColumns.findIndex(c => c._id === active.id)
-      //   const newIndex = orderedColumns.findIndex(c => c._id === over.id)
-      //   const dndOrderedColumn = arrayMove(orderedColumns, oldIndex, newIndex)
-      //   setOrderedColumns(dndOrderedColumn)
+      //   setOrderedColumns((orderedColumns) => {
+      //     // Vi tri cu cua column
+      //     const oldIndex = orderedColumns.findIndex(c => c._id === active.id)
+      //     // Vi tri cu cua column
+      //     const newIndex = orderedColumns.findIndex(c => c._id === over.id)
+      //     // Cap nhan vi tri cua column sau khi keo
+      //     return arrayMove(orderedColumns, oldIndex, newIndex)
+      //   })
       // }
+      // cach 2
+      if (active.id !== over.id) {
+        const oldIndex = orderedColumns.findIndex(c => c._id === active.id)
+        const newIndex = orderedColumns.findIndex(c => c._id === over.id)
+        const dndOrderedColumn = arrayMove(orderedColumns, oldIndex, newIndex)
+        moveColumns(dndOrderedColumn)
+        setOrderedColumns(dndOrderedColumn)
+      }
 
     }
     setActiveDragItemId(null)

@@ -5,7 +5,7 @@ import AppBar from '~/components/AppBar/AppBar'
 import BoardBar from '~/pages/Boards/BoardBar/BoardBar'
 import BoardContent from '~/pages/Boards/BoardContent/BoardContent'
 import { useEffect, useState } from 'react'
-import { fetchBoardDetailAPI, createNewCard, createNewColumn } from '~/apis'
+import { fetchBoardDetailAPI, createNewCard, createNewColumn, updateOrderedColumnIds } from '~/apis'
 import { FE_CardNoColumn } from '~/utils/formats'
 
 function BoardDetails () {
@@ -46,15 +46,24 @@ function BoardDetails () {
       columnToUpdate.cards.push(createdCard)
       columnToUpdate.cardOrderIds.push(createCard._id)
     }
-
     setBoard(newBoard)
+  }
+  const moveColumns = async (dndOrderedColumn) => {
+    const dndOrderedColumnIds = dndOrderedColumn.map(column => column._id)
+
+    const newBoard = { ...board }
+    newBoard.columns = dndOrderedColumn
+    newBoard.columnOrderIds = dndOrderedColumnIds
+    setBoard(newBoard)
+
+    await updateOrderedColumnIds(newBoard._id, { columnOrderIds: newBoard.columnOrderIds })
   }
 
   return (
     <Container disableGutters maxWidth={false} sx={{ height:'100vh' }}>
       <AppBar />
       <BoardBar board={board}/>
-      <BoardContent createCard={createCard} createColumn={createColumn} board={board}/>
+      <BoardContent createCard={createCard} createColumn={createColumn} board={board} moveColumns={moveColumns}/>
     </Container>
   )
 }
