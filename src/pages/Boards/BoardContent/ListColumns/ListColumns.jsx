@@ -8,16 +8,22 @@ import TextField from '@mui/material/TextField'
 import CloseIcon from '@mui/icons-material/Close'
 import { toast } from 'react-toastify'
 
-function ListColumns ({ columns }) {
+function ListColumns ({ columns, createColumn, createCard }) {
   const [titleColumn, setTitleColumn] = useState('')
   const [oppenNewColumn, setOppenNewColumn] = useState(false)
   const toggleOppenAddColumn = () => setOppenNewColumn(!oppenNewColumn)
 
-  const addColumn = () => {
+  const addColumn = async () => {
     if ( !titleColumn ) {
       toast.error('loi khong co title')
       return
     }
+
+    const dataNewColumn = {
+      title: titleColumn
+    }
+
+    await createColumn(dataNewColumn)
 
     // console.log(titleColumn)
     toggleOppenAddColumn()
@@ -35,7 +41,7 @@ function ListColumns ({ columns }) {
         overflowY: 'hidden'
       }}>
         {/* Box column 01*/}
-        {columns.map(column => <Column key={column._id} column={column}/>)}
+        {columns.map(column => <Column key={column._id} column={column} createCard={createCard}/>)}
         {/* Add new card */}
         {!oppenNewColumn
           ? <Box sx={{

@@ -22,7 +22,7 @@ const ACTIVE_DRAG_ITEM_TYPE = {
   card: 'ACTIVE_DRAG_ITEM_TYPE_CARD'
 }
 
-function BoardContent ({ board }) {
+function BoardContent ({ board, createColumn, createCard }) {
   // Yeu cau chuot di chuyen 10px thi kich hoat event , fix truong hop click goi event
   const mouseSensor = useSensor(MouseSensor, { activationConstraint : { distance: 10 } })
   // Nhan du chuot trong 250ms va di chuyen 5px de kich hoat even
@@ -201,7 +201,7 @@ function BoardContent ({ board }) {
         },
         p: '10px 0'
       }}>
-        <ListColumns columns={orderedColumns}/>
+        <ListColumns createCard={createCard} columns={orderedColumns} createColumn={createColumn}/>
         <DragOverlay dropAnimation={dropAnimation}>
           {(!activeDragItemId || !activeDragItemType) && null}
           {(activeDragItemId && activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.column) && <Column column={activeDragItemData}/>}

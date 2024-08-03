@@ -25,18 +25,23 @@ import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { toast } from 'react-toastify'
 
-function Column ({ column }) {
+function Column ({ column, createCard }) {
 
   const [titleCard, setTitleCard] = useState('')
   const [oppenNewCard, setOppenNewCard] = useState(false)
   const toggleNewCard = () => setOppenNewCard(!oppenNewCard)
-  const addCard = () => {
+  const addCard =async () => {
 
     if (!titleCard) {
       toast.error('loi khong co title card', { position: 'bottom-left' })
       return
     }
     // console.log(titleCard)
+    const dataNewCard = {
+      title: titleCard,
+      columnId: column._id
+    }
+    await createCard(dataNewCard)
 
     setTitleCard('')
     toggleNewCard()
