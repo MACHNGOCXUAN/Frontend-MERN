@@ -25,3 +25,9 @@ export const updateOrderedColumnIds = async (boardId, updateData) => {
 
   return response.data
 }
+
+export const updateOrderedCard = async (columnId, updateData) => {
+  const response = await axios.put(`${API_ROOT}/v1/columns/${columnId}`, updateData)
+
+  return response.data
+}

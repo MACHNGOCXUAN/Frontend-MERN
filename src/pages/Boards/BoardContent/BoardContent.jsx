@@ -22,7 +22,7 @@ const ACTIVE_DRAG_ITEM_TYPE = {
   card: 'ACTIVE_DRAG_ITEM_TYPE_CARD'
 }
 
-function BoardContent ({ board, createColumn, createCard, moveColumns }) {
+function BoardContent ({ board, createColumn, createCard, moveColumns, moveCards }) {
   // Yeu cau chuot di chuyen 10px thi kich hoat event , fix truong hop click goi event
   const mouseSensor = useSensor(MouseSensor, { activationConstraint : { distance: 10 } })
   // Nhan du chuot trong 250ms va di chuyen 5px de kich hoat even
@@ -140,15 +140,18 @@ function BoardContent ({ board, createColumn, createCard, moveColumns }) {
         const oldCardIndex = oldActiveDrap?.cards?.findIndex(card => card._id === activeDragItemId)
         const newCardIndex = overColumn?.cards?.findIndex(card => card._id === overCardId)
         const dndOrderedCard = arrayMove(oldActiveDrap?.cards, oldCardIndex, newCardIndex)
+        const dndOrderedCardIds = dndOrderedCard.map(card => card?._id)
 
         setOrderedColumns(column => {
           const nextcolumns = [...column]
 
           const targetColumn = nextcolumns.find(column => column?._id == overColumn?._id)
           targetColumn.cards = dndOrderedCard
-          targetColumn.cardOrderIds = dndOrderedCard.map(card => card?._id)
+          targetColumn.cardOrderIds = dndOrderedCardIds
           return nextcolumns
         })
+
+        moveCards(dndOrderedCard, dndOrderedCardIds, oldActiveDrap._id)
       }
     }
 
@@ -169,8 +172,8 @@ function BoardContent ({ board, createColumn, createCard, moveColumns }) {
         const oldIndex = orderedColumns.findIndex(c => c._id === active.id)
         const newIndex = orderedColumns.findIndex(c => c._id === over.id)
         const dndOrderedColumn = arrayMove(orderedColumns, oldIndex, newIndex)
-        moveColumns(dndOrderedColumn)
         setOrderedColumns(dndOrderedColumn)
+        moveColumns(dndOrderedColumn)
       }
 
     }
