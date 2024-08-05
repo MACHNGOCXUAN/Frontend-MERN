@@ -5,11 +5,12 @@ import AppBar from '~/components/AppBar/AppBar'
 import BoardBar from '~/pages/Boards/BoardBar/BoardBar'
 import BoardContent from '~/pages/Boards/BoardContent/BoardContent'
 import { useEffect, useState } from 'react'
-import { fetchBoardDetailAPI, createNewCard, createNewColumn, updateOrderedColumnIds, updateOrderedCard, updateOrderedCardOtherColumn } from '~/apis/index'
+import { fetchBoardDetailAPI, createNewCard, createNewColumn, updateOrderedColumnIds, updateOrderedCard, updateOrderedCardOtherColumn, deleteColumnApi } from '~/apis/index'
 import { FE_CardNoColumn } from '~/utils/formats'
 import { mapOrder } from '~/utils/sort'
 import { Box } from '@mui/material'
 import CircularProgress from '@mui/material/CircularProgress'
+import { toast } from 'react-toastify'
 
 function BoardDetails () {
   const [board, setBoard] = useState(null)
@@ -113,6 +114,17 @@ function BoardDetails () {
     })
   }
 
+  const deleteColumn = (columnId) => {
+    let newBoad = { ...board }
+    newBoad.columns = newBoad.columns.filter(column => column._id !== columnId)
+    newBoad.columnOrderIds = newBoad.columnOrderIds.filter( _id => _id !== columnId)
+    setBoard(newBoad)
+
+    deleteColumnApi(columnId).then(res => {
+      toast.success(res.deleteRerult)
+    })
+  }
+
   if (!board) {
     return (
       <Box sx={{
@@ -131,7 +143,7 @@ function BoardDetails () {
     <Container disableGutters maxWidth={false} sx={{ height:'100vh' }}>
       <AppBar />
       <BoardBar board={board}/>
-      <BoardContent createCard={createCard} createColumn={createColumn} board={board} moveColumns={moveColumns} moveCards={moveCardsInColumn} moveCardsOtherColumn={moveCardsOtherColumn}/>
+      <BoardContent deleteColumn={deleteColumn} createCard={createCard} createColumn={createColumn} board={board} moveColumns={moveColumns} moveCards={moveCardsInColumn} moveCardsOtherColumn={moveCardsOtherColumn}/>
     </Container>
   )
 }

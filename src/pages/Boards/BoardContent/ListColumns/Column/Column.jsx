@@ -20,12 +20,13 @@ import ListCards from './ListCards/ListCards'
 import { mapOrder } from '~/utils/sort'
 import TextField from '@mui/material/TextField'
 import CloseIcon from '@mui/icons-material/Close'
+import { useConfirm } from 'material-ui-confirm'
 
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { toast } from 'react-toastify'
 
-function Column ({ column, createCard }) {
+function Column ({ column, createCard, deleteColumn }) {
 
   const [titleCard, setTitleCard] = useState('')
   const [oppenNewCard, setOppenNewCard] = useState(false)
@@ -63,6 +64,21 @@ function Column ({ column, createCard }) {
   }
   const handleClose = () => {
     setAnchorEl(null)
+  }
+
+  const confirm = useConfirm()
+  const handleDeleteColumn = () => {
+    confirm({
+      description: 'Xoa vinh vien Column va Card trong Column.',
+      title: 'Ban co chac chan muon xoa ?',
+      confirmationText: 'Xoa',
+      allowClose: 'false',
+      content: `Nhap ${column.title} de xac nhan xoa`,
+      confirmationKeyword: `${column.title}`,
+      dialogProps: { maxWidth: 'xs' }
+    }).then(() => {
+      deleteColumn(column._id)
+    }).catch(() => {})
   }
 
   const orderedCarts = mapOrder(column?.cards, column?.cardOrderIds, '_id')
@@ -109,6 +125,7 @@ function Column ({ column, createCard }) {
               anchorEl={anchorEl}
               open={open}
               onClose={handleClose}
+              onClick={handleClose}
               MenuListProps={{
                 'aria-labelledby': 'basic-column-dropdown'
               }}
@@ -130,8 +147,15 @@ function Column ({ column, createCard }) {
                 <ListItemText>Paste</ListItemText>
               </MenuItem>
               <Divider />
-              <MenuItem>
-                <ListItemIcon><DeleteForeverIcon fontSize='small'/></ListItemIcon>
+              <MenuItem onClick={handleDeleteColumn} sx={{
+                '&:hover': {
+                  color: 'red'
+                },
+                '&:hover .hover-icon': {
+                  color: 'red'
+                }
+              }}>
+                <ListItemIcon className='hover-icon'><DeleteForeverIcon fontSize='small'/></ListItemIcon>
                 <ListItemText>Remove this column</ListItemText>
               </MenuItem>
               <MenuItem>
@@ -166,10 +190,10 @@ function Column ({ column, createCard }) {
             p: '0 5px',
             borderRadius: '10px'
           }}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, py: 2 }}>
+            <Box sx={{ display: 'flex', gap: 1, py: '10px' }}>
               <TextField data-no-dnd="true" sx={{ width: '100%' }} size='small' value={titleCard} onChange={(e) => setTitleCard(e.target.value)} autoFocus placeholder='Enter list title'/>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                <Button onClick={addCard} sx={{ bgcolor: '#2980b9', color: 'white', px: 2 }}>Add card</Button>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <Button onClick={addCard} sx={{ bgcolor: '#2980b9', color: 'white', px: 2 }}>Add</Button>
                 <CloseIcon onClick={toggleNewCard} fontSize='small'/>
               </Box>
             </Box>

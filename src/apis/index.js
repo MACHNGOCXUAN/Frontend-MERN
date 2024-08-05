@@ -37,3 +37,9 @@ export const updateOrderedCardOtherColumn = async (updateData) => {
 
   return response.data
 }
+
+export const deleteColumnApi = async (columnId) => {
+  const response = await axios.delete(`${API_ROOT}/v1/columns/${columnId}`)
+
+  return response.data
+}
