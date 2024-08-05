@@ -51,8 +51,13 @@ function BoardDetails () {
     const newBoard = { ...board }
     const columnToUpdate = newBoard.columns.find(column => column._id === createdCard.columnId)
     if (columnToUpdate) {
-      columnToUpdate.cards.push(createdCard)
-      columnToUpdate.cardOrderIds.push(createCard._id)
+      if (columnToUpdate.cards.some(card => card.FE_CardNoColumn)) {
+        columnToUpdate.cards = [createdCard]
+        columnToUpdate.cardOrderIds = [createCard._id]
+      } else {
+        columnToUpdate.cards.push(createdCard)
+        columnToUpdate.cardOrderIds.push(createCard._id)
+      }
     }
     setBoard(newBoard)
   }
@@ -81,10 +86,10 @@ function BoardDetails () {
   }
 
   const moveCardsOtherColumn = async ( currentCardId, prevColumnId, nextColumnId, dndOrderedColumn ) => {
-    console.log('currentCardId', currentCardId)
-    console.log('prevColumnId', prevColumnId)
-    console.log('nextColumnId', nextColumnId)
-    console.log('dndOrderedColumn', dndOrderedColumn)
+    // console.log('currentCardId', currentCardId)
+    // console.log('prevColumnId', prevColumnId)
+    // console.log('nextColumnId', nextColumnId)
+    // console.log('dndOrderedColumn', dndOrderedColumn)
 
     const dndOrderedColumnIds = dndOrderedColumn.map(column => column._id)
 
@@ -93,12 +98,18 @@ function BoardDetails () {
     newBoard.columnOrderIds = dndOrderedColumnIds
     setBoard(newBoard)
 
+    let prevCardOrderIds = dndOrderedColumn.find(column => column._id === prevColumnId)?.cardOrderIds
+    if (prevCardOrderIds[0].includes('placeholder-card')) prevCardOrderIds = []
+
+    let nextCardOrderIds = dndOrderedColumn.find(column => column._id === nextColumnId)?.cardOrderIds
+    nextCardOrderIds = nextCardOrderIds.filter( _id => !_id.includes('placeholder-card'))
+
     await updateOrderedCardOtherColumn({
       currentCardId,
       prevColumnId,
-      prevCardOrderIds: dndOrderedColumn.find(column => column._id === prevColumnId)?.cardOrderIds,
+      prevCardOrderIds,
       nextColumnId,
-      nextCardOrderIds: dndOrderedColumn.find(column => column._id === nextColumnId)?.cardOrderIds
+      nextCardOrderIds
     })
   }
 
