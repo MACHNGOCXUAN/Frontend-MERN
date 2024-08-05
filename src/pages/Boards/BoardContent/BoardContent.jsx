@@ -22,7 +22,7 @@ const ACTIVE_DRAG_ITEM_TYPE = {
   card: 'ACTIVE_DRAG_ITEM_TYPE_CARD'
 }
 
-function BoardContent ({ board, createColumn, createCard, moveColumns, moveCards }) {
+function BoardContent ({ board, createColumn, createCard, moveColumns, moveCards, moveCardsOtherColumn }) {
   // Yeu cau chuot di chuyen 10px thi kich hoat event , fix truong hop click goi event
   const mouseSensor = useSensor(MouseSensor, { activationConstraint : { distance: 10 } })
   // Nhan du chuot trong 250ms va di chuyen 5px de kich hoat even
@@ -46,7 +46,7 @@ function BoardContent ({ board, createColumn, createCard, moveColumns, moveCards
   }
 
   const KeoThaCardKhacColumn = (
-    overColumn, overCardId, over, active, activeColumn, activeCardId, activeCardData
+    overColumn, overCardId, over, active, activeColumn, activeCardId, activeCardData, triggerFrom
   ) => {
     setOrderedColumns(column => {
       // tim vi tri sap keo tha
@@ -80,6 +80,10 @@ function BoardContent ({ board, createColumn, createCard, moveColumns, moveCards
         nextOverColumn.cards = nextOverColumn.cards?.filter(card => !card?.FE_CardNoColumn)
       }
 
+      if (triggerFrom==='handleDragEnd') {
+        moveCardsOtherColumn( activeCardId, oldActiveDrap._id, nextOverColumn._id, nextcolumns )
+      }
+
       return nextcolumns
     })
   }
@@ -111,7 +115,7 @@ function BoardContent ({ board, createColumn, createCard, moveColumns, moveCards
     if (!activeColumn || !overColumn) return
 
     if (activeColumn._id !== overColumn._id) {
-      KeoThaCardKhacColumn(overColumn, overCardId, over, active, activeColumn, activeCardId, activeCardData)
+      KeoThaCardKhacColumn(overColumn, overCardId, over, active, activeColumn, activeCardId, activeCardData, 'handleDragOver')
     }
   }
 
@@ -134,7 +138,7 @@ function BoardContent ({ board, createColumn, createCard, moveColumns, moveCards
 
       // keo tha card khac column
       if (oldActiveDrap?._id !== overColumn?._id) {
-        KeoThaCardKhacColumn(overColumn, overCardId, over, active, activeColumn, activeCardId, activeCardData)
+        KeoThaCardKhacColumn(overColumn, overCardId, over, active, activeColumn, activeCardId, activeCardData, 'handleDragEnd')
       } else {
         // Keo tha card cung column
         const oldCardIndex = oldActiveDrap?.cards?.findIndex(card => card._id === activeDragItemId)

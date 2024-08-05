@@ -5,7 +5,7 @@ import AppBar from '~/components/AppBar/AppBar'
 import BoardBar from '~/pages/Boards/BoardBar/BoardBar'
 import BoardContent from '~/pages/Boards/BoardContent/BoardContent'
 import { useEffect, useState } from 'react'
-import { fetchBoardDetailAPI, createNewCard, createNewColumn, updateOrderedColumnIds, updateOrderedCard } from '~/apis/index'
+import { fetchBoardDetailAPI, createNewCard, createNewColumn, updateOrderedColumnIds, updateOrderedCard, updateOrderedCardOtherColumn } from '~/apis/index'
 import { FE_CardNoColumn } from '~/utils/formats'
 import { mapOrder } from '~/utils/sort'
 import { Box } from '@mui/material'
@@ -80,6 +80,28 @@ function BoardDetails () {
     await updateOrderedCard(columnId, { cardOrderIds: columnToUpdate.cardOrderIds })
   }
 
+  const moveCardsOtherColumn = async ( currentCardId, prevColumnId, nextColumnId, dndOrderedColumn ) => {
+    console.log('currentCardId', currentCardId)
+    console.log('prevColumnId', prevColumnId)
+    console.log('nextColumnId', nextColumnId)
+    console.log('dndOrderedColumn', dndOrderedColumn)
+
+    const dndOrderedColumnIds = dndOrderedColumn.map(column => column._id)
+
+    const newBoard = { ...board }
+    newBoard.columns = dndOrderedColumn
+    newBoard.columnOrderIds = dndOrderedColumnIds
+    setBoard(newBoard)
+
+    await updateOrderedCardOtherColumn({
+      currentCardId,
+      prevColumnId,
+      prevCardOrderIds: dndOrderedColumn.find(column => column._id === prevColumnId)?.cardOrderIds,
+      nextColumnId,
+      nextCardOrderIds: dndOrderedColumn.find(column => column._id === nextColumnId)?.cardOrderIds
+    })
+  }
+
   if (!board) {
     return (
       <Box sx={{
@@ -98,7 +120,7 @@ function BoardDetails () {
     <Container disableGutters maxWidth={false} sx={{ height:'100vh' }}>
       <AppBar />
       <BoardBar board={board}/>
-      <BoardContent createCard={createCard} createColumn={createColumn} board={board} moveColumns={moveColumns} moveCards={moveCardsInColumn}/>
+      <BoardContent createCard={createCard} createColumn={createColumn} board={board} moveColumns={moveColumns} moveCards={moveCardsInColumn} moveCardsOtherColumn={moveCardsOtherColumn}/>
     </Container>
   )
 }
